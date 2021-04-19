@@ -1,22 +1,28 @@
-import socket as sc
+import asyncio
 
-def echo_server(address):
-    sock = sc.socket(sc.AF_INET, sc.SOCK_STREAM)
-    sock.bind(address)
-    sock.listen(1)
-    while True:
-        client, addr = sock.accept()
-        print(f"Connection from {addr}")
-        echo_handler(client)
+async def echo_server(address):
+    #sock = sc.socket(sc.AF_INET, sc.SOCK_STREAM)
+    #sock.bind(address)
+    #sock.listen(1)
+    #while True:
+    #    client, addr = sock.accept()     ## blocking
+    #    print(f"Connection from {addr}")
+    #    echo_handler(client)
+    server = await asyncio.start_server(echo_handler, *address)
+    async with server:
+        await server.serve_forever()
 
-def echo_handler(client):
+async def echo_handler(reader, writer):
     while True:
-        data = client.recv(100000)
-        if not data:
-            break
-        client.sendall(b'Got: ' + data)
+        data = await reader.read(100000)
+        ## handler code...
+        writer.write(data)
+        await writer.drain()
     print("conn closed")
-    client.close()
+    writer.close()
 
 if __name__ == "__main__":
-    echo_server(("", 25000))
+    try:
+        asyncio.run(echo_server(("", 25000)))
+    except KeyboardInterrupt:
+        print("Quitting")
