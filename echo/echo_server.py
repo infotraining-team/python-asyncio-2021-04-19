@@ -16,6 +16,7 @@ async def echo_handler(reader, writer):
     while True:
         data = await reader.read(100000)
         ## handler code...
+        ## check primes
         writer.write(data)
         await writer.drain()
     print("conn closed")
