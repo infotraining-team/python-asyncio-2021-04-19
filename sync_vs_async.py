@@ -35,7 +35,12 @@ async def main():
     #res = []
     #res.append(await async_func(1))
     #res.append(await async_func(2))
-    print(res)
+
+    res1 = asyncio.create_task(async_func(1))
+    res2 = asyncio.create_task(async_func(2))
+    await res1
+    await res2
+    print([res1, res2])
 
 asyncio.run(main())
 
