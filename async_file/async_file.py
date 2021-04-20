@@ -15,12 +15,8 @@ class AsyncFile:
         await asyncio.to_thread(self.file.close)
 
     async def __aiter__(self):
-        while True:
-            line = await asyncio.to_thread(self.file.readline)
-            if line:
-                yield line
-            else:
-                break
+        while line := await asyncio.to_thread(self.file.readline)
+            yield line
 
     #iterators
     # def __aiter__(self):

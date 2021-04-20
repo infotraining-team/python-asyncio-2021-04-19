@@ -4,7 +4,6 @@ from async_file import AsyncFile
 import contextlib
 import unittest.mock as mock
 
-
 """
 with AsyncFile("filename.txt") as f:
     ## non-blocking read
