@@ -20,7 +20,8 @@ kota"""
 @pytest.mark.asyncio
 async def test_CM():
     with mock.patch('builtins.open', mock.mock_open(read_data=file_content)):
-        with AsyncFile("test_file") as f:
+        async with AsyncFile("test_file") as f:
             assert isinstance(f, contextlib.AbstractAsyncContextManager)
 
-## asyncio.iscoroutinefunction
+## asyncio.iscoroutinefunction readall
+## test file content
