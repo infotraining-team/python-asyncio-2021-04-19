@@ -13,3 +13,12 @@ class AsyncFile:
 
     async def __aexit__(self, ext, ex, tb):
         await asyncio.to_thread(self.file.close)
+
+async def main():
+    async with AsyncFile(sys.argv[0]) as f:
+        res = await f.readall()
+        print(res[:20])
+
+if __name__ == "__main__":
+    import sys
+    asyncio.run(main())
