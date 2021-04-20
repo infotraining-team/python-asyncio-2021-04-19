@@ -19,6 +19,14 @@ async def main():
         res = await f.readall()
         print(res[:20])
 
+    async with AsyncFile(sys.argv[0]) as f:
+        async for line in f:
+            print(line)
+
+    # with open(sys.argv[0]) as f:
+    #     for line in f:
+    #         print(line)
+
 if __name__ == "__main__":
     import sys
     asyncio.run(main())
