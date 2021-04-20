@@ -12,8 +12,7 @@ with AsyncFile("filename.txt") as f:
     ## closing file
 """
 
-file_content = """
-Ala
+file_content = """Ala
 ma
 kota"""
 
@@ -37,3 +36,13 @@ async def test_readall_content():
         async with AsyncFile("test_file") as f:
             res = await f.readall()
             assert res == file_content
+
+## iteration through lines
+@pytest.mark.asyncio
+async def test_readall_content():
+    with mock.patch('builtins.open', mock.mock_open(read_data=file_content)):
+        res = []
+        async with AsyncFile("test_file") as f:
+            async for line in f:
+                res.append(line.strip())
+        assert res == file_content.split()

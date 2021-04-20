@@ -14,6 +14,25 @@ class AsyncFile:
     async def __aexit__(self, ext, ex, tb):
         await asyncio.to_thread(self.file.close)
 
+    async def __aiter__(self):
+        while True:
+            line = await asyncio.to_thread(self.file.readline)
+            if line:
+                yield line
+            else:
+                break
+
+    #iterators
+    # def __aiter__(self):
+    #     return self
+
+    # async def __anext__(self):
+    #     line = await asyncio.to_thread(self.file.readline)
+    #     if line:
+    #         return line
+    #     else:
+    #         raise StopAsyncIteration
+
 async def main():
     async with AsyncFile(sys.argv[0]) as f:
         res = await f.readall()

@@ -24,8 +24,11 @@ async def main():
     async for i in async_generator(5):
         print(i)
     print("-----")
+
     async for i in Counter(4):
         print(i)
+
+    print([i async for i in Counter(5)])
 
 
 
