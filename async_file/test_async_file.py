@@ -24,4 +24,16 @@ async def test_CM():
             assert isinstance(f, contextlib.AbstractAsyncContextManager)
 
 ## asyncio.iscoroutinefunction readall
+@pytest.mark.asyncio
+async def test_readall():
+    with mock.patch('builtins.open', mock.mock_open(read_data=file_content)):
+        async with AsyncFile("test_file") as f:
+            assert asyncio.iscoroutinefunction(f.readall)
+
 ## test file content
+@pytest.mark.asyncio
+async def test_readall():
+    with mock.patch('builtins.open', mock.mock_open(read_data=file_content)):
+        async with AsyncFile("test_file") as f:
+            res = await f.readall()
+            assert res == file_content
